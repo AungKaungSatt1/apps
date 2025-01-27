@@ -1,0 +1,78 @@
+.background {
+	background: var(--grey) url("../assets/background.jpg") no-repeat center/cover;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+.form {
+	margin: 100px auto;
+	max-width: 350px;
+	border: 1px solid var(--border-color);
+	display: flex;
+	flex-direction: column;
+	height: 400px;
+	padding: 40px;
+	border-radius: 20px;
+	background-color: var(--primary-color);
+	backdrop-filter: blur(5px);
+}
+.form-name {
+	height: 25%;
+	background-color: var(--additional-color);
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	text-align: center;
+	line-height: 80px;
+	font-size: 1.5em;
+	margin-bottom: 20px;
+	color: var(--primary-color);
+}
+.input {
+	padding: 10px 15px;
+	margin-bottom: 10px;
+	border-radius: 8px;
+	border: 1px solid var(--border-color);
+}
+.password {
+	display: flex;
+	flex-direction: row;
+}
+.password > input {
+	width: 90%;
+	border-right: none;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+.eye {
+	border: 1px solid var(--border-color);
+	height: 80%;
+	width: 15%;
+	text-align: center;
+	line-height: 45px;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	cursor: pointer;
+	transition: 0.5s all ease-in-out;
+}
+.eye:hover {
+	background: var(--border-color);
+}
+.form-button {
+	margin-bottom: 25px;
+	padding: 10px;
+	background-color: var(--additional-color);
+	border-radius: 8px;
+	border: none;
+	color: var(--primary-color);
+	font-size: 1.2em;
+}
+.form-change {
+	text-align: center;
+}
+.form-change > a {
+	color: blue;
+	margin-left: 10px;
+}
+.form-change > a:hover {
+	text-decoration: underline;
+}
