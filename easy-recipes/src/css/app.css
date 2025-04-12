@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@font-face {
+	font-family: "PT-Sans", serif;
+	src: url("../assets/PT_Sans/PTSans-Regular.ttf");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Merriweather", serif;
+	src: url("../assets/Merriweather/Merriweather-Regular.ttf");
+}
+
+:root {
+	--primary-color: #edf2f4;
+	--secondary-color: #38b000;
+	--additional-color: #d00000;
+	--additional-color-2: #ffae00;
+	--dark-theme: #03071e;
+	--border-color: #dbdbdb;
+	--white: #fff;
+	--black: #000;
+}
+
+body {
+	background-color: var(--primary-color);
+}
+
+.list-item {
+	position: relative;
+}
+.list-item::after {
+	content: "";
+	position: absolute;
+	display: block;
+	width: 0%;
+	height: 3px;
+	background-color: var(--secondary-color);
+	transition: all 0.5s ease-in-out;
+}
+.list-item:hover::after {
+	width: 100%;
+}
+
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+	/* Chrome, Safari and Opera */
+}
+
+input:focus {
+	outline: none;
+}

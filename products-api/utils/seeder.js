@@ -1,8 +1,10 @@
+require("dotenv").config();
+
 const { faker } = require("@faker-js/faker");
 const bcryptjs = require("bcryptjs");
 
 const { MongoClient, ObjectId } = require("mongodb");
-const client = new MongoClient("mongodb://localhost");
+const client = new MongoClient(process.env.MONGO);
 const db = client.db("shop");
 
 const number_of_products = 20;

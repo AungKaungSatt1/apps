@@ -55,7 +55,7 @@ router.get("/", async function (req, res) {
 				return res.json(result);
 			}
 		} catch (e) {
-			return res.send(q);
+			return res.sendStatus(500).json({ msg: e.message });
 		}
 	} else {
 		const data = await db

@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
 	const { username, password } = req.body;
-	if ((!username, !password)) {
+	if (!username || !password) {
 		return res.sendStatus(400).json({ msg: "Username and Password required" });
 	}
 
