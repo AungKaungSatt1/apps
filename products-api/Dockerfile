@@ -1,9 +1,15 @@
-FROM node:22
+FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Yangon
 
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nginx git curl ca-certificates gnupg
+
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | \
+	gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | \
+	tee /etc/apt/sources.list.d/nodesource.list
 
 RUN curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
    gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
@@ -15,16 +21,11 @@ RUN apt-get update
 RUN apt-get install nodejs mongodb-org -y
 RUN npm install -g nodemon
 
-WORKDIR /app
-
-COPY package*.json ./
-
+WORKDIR /easy-recipes-api
+COPY . /easy-recipes-api
 RUN npm install
 
-COPY . .
+EXPOSE 80
+COPY nginx.conf /etc/nginx/sites-available/default
 
-ENV port=8000
-
-EXPOSE 8000
-
-CMD ["npm", "start"]
+CMD ["/bin/bash", "./start.sh"]
