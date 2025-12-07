@@ -1,17 +1,11 @@
 import {
-	createTheme,
-	CssBaseline,
-	Snackbar,
-	ThemeProvider,
+    createTheme,
+    CssBaseline,
+    Snackbar,
+    ThemeProvider,
 } from "@mui/material";
 
-import {
-	createContext,
-	useContext,
-	useEffect,
-	useMemo,
-	useState,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const AppContext = createContext();
 
@@ -36,128 +30,130 @@ import { fetchNotis, fetchVerify } from "./libs/fetcher";
 import useWebSocket from "./libs/webSocketClient";
 
 export function useApp() {
-	return useContext(AppContext);
+    return useContext(AppContext);
 }
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Template />,
-		children: [
-			{
-				path: "/",
-				element: <Home />,
-			},
-			{
-				path: "/followed",
-				element: <Followed />,
-			},
-			{
-				path: "/login",
-				element: <Login />,
-			},
-			{
-				path: "/register",
-				element: <Register />,
-			},
-			{
-				path: "/likes/:id",
-				element: <Likes />,
-			},
-			{
-				path: "/comments/:id",
-				element: <Comments />,
-			},
-			{
-				path: "/new",
-				element: <NewPost />,
-			},
-			{
-				path: "/profile/:id",
-				element: <Profile />,
-			},
-			{
-				path: "/edit/user",
-				element: <Edit />,
-			},
-			{
-				path: "/search",
-				element: <Search />,
-			},
-			{
-				path: "/notis",
-				element: <Notis />,
-			},
-			{
-				path: "/followers/:id",
-				element: <Followers />,
-			},
-			{
-				path: "/following/:id",
-				element: <Following />,
-			},
-		],
-	},
+    {
+        path: "/",
+        element: <Template />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            },
+            {
+                path: "/followed",
+                element: <Followed />,
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
+            {
+                path: "/likes/:id",
+                element: <Likes />,
+            },
+            {
+                path: "/comments/:id",
+                element: <Comments />,
+            },
+            {
+                path: "/new",
+                element: <NewPost />,
+            },
+            {
+                path: "/profile/:id",
+                element: <Profile />,
+            },
+            {
+                path: "/edit/user",
+                element: <Edit />,
+            },
+            {
+                path: "/search",
+                element: <Search />,
+            },
+            {
+                path: "/notis",
+                element: <Notis />,
+            },
+            {
+                path: "/followers/:id",
+                element: <Followers />,
+            },
+            {
+                path: "/following/:id",
+                element: <Following />,
+            },
+        ],
+    },
 ]);
 
 export default function ThemedApp() {
-	const [mode, setMode] = useState("dark");
-	const [drawer, setDrawer] = useState(false);
-	const [toast, setToast] = useState(null);
-	const [auth, setAuth] = useState(false);
-	const [notiCount, setNotiCount] = useState(0);
+    const [mode, setMode] = useState("dark");
+    const [drawer, setDrawer] = useState(false);
+    const [toast, setToast] = useState(null);
+    const [auth, setAuth] = useState(false);
+    const [notiCount, setNotiCount] = useState(0);
 
     const ws = useWebSocket();
-    
-	useEffect(() => {
-		ws.addEventListener("message", e => {
-			const msg = JSON.parse(e.data);
-			if (msg.type === "notis") {
-				setNotiCount(msg.count);
-			}
-		});
 
-		fetchVerify().then(user => setAuth(user));
+    useEffect(() => {
+        ws.addEventListener("message", (e) => {
+            const msg = JSON.parse(e.data);
+            if (msg.type === "notis") {
+                setNotiCount(msg.count);
+            }
+        });
 
-		fetchNotis().then(data =>
-			setNotiCount(data.filter(noti => !noti.read).length)
-		);
-	}, []);
+        fetchVerify().then((user) => setAuth(user));
 
-	const theme = useMemo(() => {
-		return createTheme({
-			palette: {
-				mode,
-			},
-		});
-	}, [mode]);
+        fetchNotis().then((data) => {
+            setNotiCount(data.filter((noti) => !noti.read).length);
+            console.log(data);
+        });
+    }, []);
 
-	return (
-		<ThemeProvider theme={theme}>
-			<AppContext.Provider
-				value={{
-					mode,
-					setMode,
-					drawer,
-					setDrawer,
-					auth,
-					setAuth,
-					toast,
-					setToast,
-					notiCount,
-					setNotiCount,
-				}}>
-				<Snackbar
-					anchorOrigin={{ vertical: "top", horizontal: "right" }}
-					open={Boolean(toast)}
-					autoHideDuration={6000}
-					onClose={() => setToast(null)}
-					message={toast}
-				/>
+    const theme = useMemo(() => {
+        return createTheme({
+            palette: {
+                mode,
+            },
+        });
+    }, [mode]);
 
-				<RouterProvider router={router} />
-				<CssBaseline />
-			</AppContext.Provider>
-		</ThemeProvider>
-	);
+    return (
+        <ThemeProvider theme={theme}>
+            <AppContext.Provider
+                value={{
+                    mode,
+                    setMode,
+                    drawer,
+                    setDrawer,
+                    auth,
+                    setAuth,
+                    toast,
+                    setToast,
+                    notiCount,
+                    setNotiCount,
+                }}
+            >
+                <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    open={Boolean(toast)}
+                    autoHideDuration={6000}
+                    onClose={() => setToast(null)}
+                    message={toast}
+                />
+
+                <RouterProvider router={router} />
+                <CssBaseline />
+            </AppContext.Provider>
+        </ThemeProvider>
+    );
 }

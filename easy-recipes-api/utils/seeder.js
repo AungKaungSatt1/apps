@@ -60,12 +60,20 @@ async function seedMeals(users) {
 
     let data = [];
     let food_types = ["Desserts", "Snacks", "Breakfast", "Dinner", "Lunch"];
-    let cuisine_types = ["American", "Japanese", "Chinese", "Italian", "Korean", "Thai"];
+    let cuisine_types = [
+        "American",
+        "Japanese",
+        "Chinese",
+        "Italian",
+        "Korean",
+        "Thai",
+    ];
 
     for (let i = 0; i < number_of_meals; i++) {
         let description = faker.food.description();
         let name = faker.food.dish();
-        let cuisine = cuisine_types[Math.floor(Math.random() * cuisine_types.length)];
+        let cuisine =
+            cuisine_types[Math.floor(Math.random() * cuisine_types.length)];
         let type = food_types[Math.floor(Math.random() * food_types.length)];
         let user = users[Math.floor(Math.random() * number_of_users)];
         let rating = Math.floor(Math.random() * 40);
